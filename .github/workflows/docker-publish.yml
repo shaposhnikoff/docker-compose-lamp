@@ -16,8 +16,8 @@ on:
 env:
   #git_hash=$(git rev-parse --short "$GITHUB_SHA")
   #GIT_BRANCH: ${GITHUB_REF#refs/heads/}
-  BRANCH_NAME=$(echo $GITHUB_REF | cut -d'/' -f 3)
-  GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-7)
+  #BRANCH_NAME=$(echo $GITHUB_REF | cut -d'/' -f 3)
+  #GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-7)
   IMAGE_NAME74: php-7.4
   IMAGE_NAME56: php-5.6
   IMAGE_NAME54: php-5.4
@@ -36,6 +36,10 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
       - name: Push image
         run: |
+          BRANCH_NAME=$(echo $GITHUB_REF | cut -d'/' -f 3)
+          GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | cut -c1-7)
+          echo ${BRANCH_NAME}
+          echo ${GITHUB_SHA_SHORT}
           IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME74
 
           # Change all uppercase to lowercase
